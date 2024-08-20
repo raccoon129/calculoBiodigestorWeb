@@ -5,19 +5,19 @@ body, html {
 }
 
 #slideshow {
-    height: 40vh;
+    height: 50vh; /*para el tamano de las imagenes en presentacion */
     width: 100%;
     position: relative;
-    background-color: green; /* Color de referencia */
+    background-color: #f5f5f5; /* Color de referencia */
 }
 
 #content-container {
-    width: 70%;
+    width: 80%;
     background-color: white;
     padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
     position: absolute;
-    top: 30vh;
+    top: 10vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
