@@ -1,26 +1,25 @@
 body, html {
     height: 100%;
     margin: 0;
-    font-family: Arial, sans-serif;
 }
 
 #slideshow {
-    height: 50vh; /*para el tamano de las imagenes en presentacion */
+    height: 50vh; /* Tamaño de las imágenes en presentación */
     width: 100%;
-    position: relative;
+    position: absolute;
     background-color: #f5f5f5; /* Color de referencia */
 }
 
 #content-container {
-    width: 80%;
+    width: 100%; /* Cambiado a 100% para que ocupe todo el ancho de la página */
+    max-width: 1200px; /* Tamaño máximo opcional si deseas limitar el ancho */
     background-color: white;
     padding: 20px;
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 10vh;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative; /* Cambiado a relative para no usar absolute */
+    margin: 0 auto; /* Centramos horizontalmente */
     z-index: 1;
+    top: 30vh;
 }
 
 iframe {
@@ -36,5 +35,9 @@ iframe {
 
 #content-background {
     background-color: #f5f5f5; /* Fondo inferior */
-    height: 100%;
+    min-height: 100vh; /* Para que ocupe todo el alto de la página */
+    display: flex; /* Para que el contenido sea flexible */
+    justify-content: center; /* Centramos el contenido verticalmente */
+    align-items: flex-start; /* Ajustamos el contenido al inicio */
+    padding-top: 20px;
 }
