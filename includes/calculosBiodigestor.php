@@ -65,8 +65,15 @@ function generarImagenDimensiones($radio, $diametro, $alturaCupula) {
     imagettftext($imagen, 16, 0, 50, 100, $colorTexto, $fuente, "Diámetro: $diametro m");
     imagettftext($imagen, 16, 0, 50, 150, $colorTexto, $fuente, "Altura Cúpula: $alturaCupula m");
 
+    //Colocar supuerpuesto al esquema
+    // - - Horizontal Vertical
+    imagettftext($imagen, 30, 0, 650, 500, $colorTexto, $fuente, "$radio m"); //YA está en medio
+    imagettftext($imagen, 30, 0, 580, 990, $colorTexto, $fuente, "$diametro m"); //YA está abajo
+    imagettftext($imagen, 30, 0, 940, 270, $colorTexto, $fuente, "$alturaCupula m"); //YA está arriba
+    //Acá falta otro valor para la medida de la izquierda
+
     // Guardar la imagen generada
-    $rutaImagenGenerada = '../img/dimensionesBiodigestor.png';
+    $rutaImagenGenerada = '../tmp/temporalDimensionesBiodigestorGeneradasPlano.png';
     imagepng($imagen, $rutaImagenGenerada);
 
     // Liberar memoria

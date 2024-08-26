@@ -172,6 +172,10 @@
                             <!-- Columna de Imagen -->
                             <div class="column">
                                 <h5>Dimensiones del Biodigestor</h5>
+                                <h6>Esquema:</h6>
+                                <div class="alert alert-info" role="alert">
+                                    Estas dimensiones son meramente ilustrativas.
+                                </div>
                                 <img id="imagen-biodigestor" src="" alt="Imagen del Biodigestor con Dimensiones" style="max-width: 100%; height: auto;">
                             </div>
 
