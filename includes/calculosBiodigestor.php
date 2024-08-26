@@ -1,51 +1,98 @@
 <?php
-// Habilitar la visualización de errores
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+header('Content-Type: application/json');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recibir datos del formulario
-    $numeroCerdos = (int) $_POST['numeroCerdos'];
-    $numeroExcreta = (float) $_POST['numeroExcreta'];
-    $numeroRelacion = (float) $_POST['numeroRelacion'];
-    $numeroTResidencia = (float) $_POST['numeroTResidencia'];
-    $hCil = (float) $_POST['alturaCilindro'];
-    $paredBolsa = (float) $_POST['paredBolsa'];
+// Recibir datos del formulario
+$numeroAnimales = $_POST['numAnimales'];
+$cantidadExcreta = $_POST['excretaDiaria'];
+$tiempoResidencia = $_POST['tiempoResidencia'];
+$relacionEstiercolAgua = $_POST['relacionEstiercolAgua'];
+$alturaCilindro = $_POST['alturaCilindro'];
+$alturaPared = $_POST['alturaPared'];
 
-    // Cálculos basados en las fórmulas proporcionadas
-    $excretasTotales = $numeroCerdos * $numeroExcreta;
-    $volumenMezcla = $excretasTotales * $numeroRelacion;
-    $volumenDigestor = $volumenMezcla * $numeroTResidencia;
-    $volumenGas = $volumenDigestor * 0.6;
-    $volumenCupula = $volumenGas * 0.6;
+// Realizar cálculos
+$excretasTotales = $numeroAnimales * $cantidadExcreta;
+$volumenMezcla = (($excretasTotales * $relacionEstiercolAgua) + $excretasTotales) / 1000;
+$volumenCilindro = $volumenMezcla * $tiempoResidencia;
+$volumenGas = $excretasTotales * 0.035;
+$volumenCupula = $volumenCilindro * 0.45;
+$radio = sqrt($volumenCilindro / (pi() * $alturaCilindro));
+$diametro = $radio * 2;
+$alturaCupula = $radio / 3;
+$volumenFinal = $volumenCilindro + $volumenCupula;
 
-    $radio = sqrt($volumenDigestor / (pi() * $hCil));
-    $diametro = 2 * $radio;
-    $alturaCupula = $diametro / 4;
-    $volumenFinal = $volumenCupula + $volumenDigestor;
+// Dimensiones de la pared
+$alturaParedFinal = 1.5 * $alturaPared;
+$anchoPared = 6.4 * $alturaPared;
+$largoPared = 10 * $alturaPared;
 
-    $alturaParedBolsa = ($volumenFinal - $volumenDigestor) / ($diametro * $hCil);
-    $anchoBolsa = $diametro;
-    $largoBolsa = $volumenFinal / ($anchoBolsa * $alturaParedBolsa);
+// Devolver resultados en formato JSON
+//$imagen_url = "../includes/generarImagenDimensiones.php?radio=$radio&diametro=$diametro&alturaCupula=$alturaCupula";
+$rutaImagen = generarImagenDimensiones($radio, $diametro, $alturaCupula);
 
-    // Crear un array con los resultados
-    $resultados = [
-        'excretasTotales' => $excretasTotales,
-        'volumenMezcla' => $volumenMezcla,
-        'volumenDigestor' => $volumenDigestor,
-        'volumenGas' => $volumenGas,
-        'volumenCupula' => $volumenCupula,
-        'radio' => $radio,
-        'diametro' => $diametro,
-        'alturaCupula' => $alturaCupula,
-        'volumenFinal' => $volumenFinal,
-        'alturaParedBolsa' => $alturaParedBolsa,
-        'anchoBolsa' => $anchoBolsa,
-        'largoBolsa' => $largoBolsa
-    ];
+function generarImagenDimensiones($radio, $diametro, $alturaCupula) {
+    // Ruta de la imagen base
+    $imagenBase = '../img/biodigestorLateralGenerar.jpg';
 
-    // Devolver el resultado en formato JSON
-    header('Content-Type: application/json');
-    echo json_encode($resultados);
+    // Verificar si el archivo existe
+    if (!file_exists($imagenBase)) {
+        return 'https://placehold.co/600x400'; // URL de marcador de posición si no existe la imagen
+    }
+
+    // Crear la imagen desde el archivo (corregido para JPG)
+    $imagen = @imagecreatefromjpeg($imagenBase);
+    if (!$imagen) {
+        return 'no se puede generar la imagen'; // Manejar error si no se puede crear la imagen
+    }
+
+    // Color del texto (negro en este caso)
+    $colorTexto = imagecolorallocate($imagen, 0, 0, 0);
+
+    // Ruta de la fuente TTF para escribir el texto
+    $fuente = '../fonts/TimesNewerRoman-Regular.otf';
+
+    // Verificar si la fuente existe
+    if (!file_exists($fuente)) {
+        return 'https://placehold.co/600x400'; // URL de marcador de posición si la fuente no existe
+    }
+
+    // Redondear los valores a dos decimales
+    $radio = number_format($radio, 2);
+    $diametro = number_format($diametro, 2);
+    $alturaCupula = number_format($alturaCupula, 2);
+
+    // Escribir el texto en la imagen con los valores redondeados
+    imagettftext($imagen, 16, 0, 50, 50, $colorTexto, $fuente, "Radio: $radio m");
+    imagettftext($imagen, 16, 0, 50, 100, $colorTexto, $fuente, "Diámetro: $diametro m");
+    imagettftext($imagen, 16, 0, 50, 150, $colorTexto, $fuente, "Altura Cúpula: $alturaCupula m");
+
+    // Guardar la imagen generada
+    $rutaImagenGenerada = '../img/dimensionesBiodigestor.png';
+    imagepng($imagen, $rutaImagenGenerada);
+
+    // Liberar memoria
+    imagedestroy($imagen);
+
+    return $rutaImagenGenerada;
 }
+
+
+
+
+
+echo json_encode(array(
+    "excretasTotales" => number_format($excretasTotales, 2),
+    "volumenMezcla" => number_format($volumenMezcla, 2),
+    "volumenCilindro" => number_format($volumenCilindro, 2),
+    "volumenGas" => number_format($volumenGas, 2),
+    "volumenCupula" => number_format($volumenCupula, 2),
+    "radio" => number_format($radio, 2),
+    "diametro" => number_format($diametro, 2),
+    "alturaCupula" => number_format($alturaCupula, 2),
+    "volumenFinal" => number_format($volumenFinal, 2),
+    "alturaPared" => number_format($alturaParedFinal, 2),
+    "anchoPared" => number_format($anchoPared, 2),
+    "largoPared" => number_format($largoPared, 2),
+    "imagen_url" => $rutaImagen
+));
+
+?>

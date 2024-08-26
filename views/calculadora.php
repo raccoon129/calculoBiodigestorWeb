@@ -4,165 +4,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcular Biodigestor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Calculadora de Biodigestores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .tooltip-inner {
+            max-width: 350px;
+            white-space: normal;
+        }
+
+        .results-table {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-1">
-        <h2>Calcular Biodigestor</h2>
-        <form id="formCalcular">
-            <div class="accordion" id="accordionExample">
-                <!-- Acordeón para Datos de Entrada -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInputs" aria-expanded="true" aria-controls="collapseInputs">
-                            Ingresar Datos
-                        </button>
-                    </h2>
-                    <div id="collapseInputs" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <!-- Sección 1: Datos de Excretas -->
-                            <div class="mb-3">
-                                <h5>Datos de Excretas</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="numeroCerdos" class="form-label">Número de Cerdos</label>
-                                        <input type="number" class="form-control" id="numeroCerdos" name="numeroCerdos" required>
+    <div class="container mt-5">
+        <div class="accordion" id="accordionExample">
+            <!-- Acordeón para Ingresar Datos -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Ingresar Datos
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form id="formularioCalculo">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Cantidad de animales</h5>
+                                    <div class="mb-3">
+                                        <label for="numAnimales" class="form-label">Número de Cerdos o Vacas (Q):</label>
+                                        <input type="number" class="form-control" id="numAnimales" name="numAnimales" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="numeroExcreta" class="form-label">Excreta por Cerdo (kg/día)</label>
-                                        <input type="number" step="0.01" class="form-control" id="numeroExcreta" name="numeroExcreta" required>
+                                    <div class="mb-3">
+                                        <label for="excretaDiaria" class="form-label">Cantidad de excreta diaria (Kg/día):</label>
+                                        <input type="number" class="form-control" id="excretaDiaria" name="excretaDiaria" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tiempoResidencia" class="form-label">Tiempo de residencia (días):</label>
+                                        <input type="number" class="form-control" id="tiempoResidencia" name="tiempoResidencia" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Datos del Biodigestor</h5>
+                                    <div class="mb-3">
+                                        <label for="relacionEstiercolAgua" class="form-label">Relación estiércol/agua:</label>
+                                        <input type="number" class="form-control" id="relacionEstiercolAgua" name="relacionEstiercolAgua" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="alturaCilindro" class="form-label">Altura del cilindro/Hongo (Hcil) m:</label>
+                                        <input type="number" class="form-control" id="alturaCilindro" name="alturaCilindro" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="alturaPared" class="form-label">Altura pared/Bolsa (HP) m:</label>
+                                        <input type="number" class="form-control" id="alturaPared" name="alturaPared" required>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Sección 2: Datos de la Mezcla y Digestor -->
-                            <div class="mb-3">
-                                <h5>Datos de la Mezcla y Digestor</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="numeroRelacion" class="form-label">Relación Estiércol/Agua</label>
-                                        <input type="number" step="0.01" class="form-control" id="numeroRelacion" name="numeroRelacion" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="numeroTResidencia" class="form-label">Tiempo de Residencia (días)</label>
-                                        <input type="number" step="0.01" class="form-control" id="numeroTResidencia" name="numeroTResidencia" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sección 3: Datos de la Cúpula y Bolsa -->
-                            <div class="mb-3">
-                                <h5>Datos de la Cúpula y Bolsa</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="alturaCilindro" class="form-label">Altura del Cilindro (m)</label>
-                                        <input type="number" step="0.01" class="form-control" id="alturaCilindro" name="alturaCilindro" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="paredBolsa" class="form-label">Altura de la Pared de la Bolsa (m)</label>
-                                        <input type="number" step="0.01" class="form-control" id="paredBolsa" name="paredBolsa" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">Calcular</button>
-                        </div>
+                            <button type="button" class="btn btn-primary" id="btnCalcular">Calcular</button>
+                        </form>
                     </div>
                 </div>
-
-                <!-- Acordeón para Resultados de Cálculo -->
-                <!-- lOS RESULTADOS SE INYECTAN CON JS -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResults" aria-expanded="false" aria-controls="collapseResults">
-                            Resultados de Cálculo
-                        </button>
-                    </h2>
-                    <div id="collapseResults" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                        <div class="accordion-body" id="resultadosBody">
-                            <div class="alert alert-info" role="alert">
-                                Ingresa datos antes para ver el resultado.
-                            </div> <!-- Mensaje por defecto -->
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
+            <!-- Resultados de Cálculo -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Resultados de Cálculo
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="two-columns">
+                            <!-- Columna de Resultados -->
+                            <div class="column">
+                                <h5>Resultados del Biodigestor</h5>
+                                <table class="table results-table">
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Cantidad total de excretas producidas por los animales en la granja">
+                                                Excretas totales en la granja:
+                                            </span>
+                                        </td>
+                                        <td id="resultado-excretas"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Volumen de la mezcla entre estiércol y agua, considerando la relación ingresada">
+                                                Volumen de la mezcla (m³):
+                                            </span>
+                                        </td>
+                                        <td id="resultado-mezcla"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Volumen del cilindro del biodigestor que almacenará la mezcla">
+                                                Volumen del cilindro (m³):
+                                            </span>
+                                        </td>
+                                        <td id="resultado-digestor"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Volumen de gas producido en el biodigestor">
+                                                Volumen de Gas (m³):
+                                            </span>
+                                        </td>
+                                        <td id="resultado-gas"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Volumen de la cúpula superior del biodigestor, generalmente donde se almacena el gas">
+                                                Volumen de la Cúpula (m³):
+                                            </span>
+                                        </td>
+                                        <td id="resultado-cupula"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Radio del cilindro del biodigestor, calculado a partir del volumen del cilindro y su altura">
+                                                Radio (r) m:
+                                            </span>
+                                        </td>
+                                        <td id="resultado-radio"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Diámetro del cilindro del biodigestor, calculado como el doble del radio">
+                                                Diámetro (D) m:
+                                            </span>
+                                        </td>
+                                        <td id="resultado-diametro"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Altura de la cúpula del biodigestor, calculada a partir del radio">
+                                                Altura de la Cúpula (Hcup) m:
+                                            </span>
+                                        </td>
+                                        <td id="resultado-altura-cupula"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-bs-toggle="tooltip" title="Volumen total del biodigestor, sumando el volumen del cilindro y la cúpula">
+                                                Volumen Final del Biodigestor (m³):
+                                            </span>
+                                        </td>
+                                        <td id="resultado-volumen-final"></td>
+                                    </tr>
+                                </table>
+                            </div>
 
-        </form>
+                            <!-- Columna de Imagen -->
+                            <div class="column">
+                                <h5>Dimensiones del Biodigestor</h5>
+                                <img id="imagen-biodigestor" src="" alt="Imagen del Biodigestor con Dimensiones" style="max-width: 100%; height: auto;">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById("formCalcular").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
+        document.getElementById('btnCalcular').addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar el envío tradicional del formulario
 
-            fetch("../includes/calculosBiodigestor.php", {
-                    method: "POST",
+            // Obtener los datos del formulario
+            let formData = new FormData(document.getElementById('formularioCalculo'));
+
+            // Enviar datos a calculosBiodigestor.php mediante AJAX
+            fetch('../includes/calculosBiodigestor.php', {
+                    method: 'POST',
                     body: formData
                 })
-                .then(response => response.text())
-                .then(text => {
-                    console.log("Response Text:", text);
-                    const data = JSON.parse(text);
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Actualizar los resultados en el acordeón
+                    document.getElementById('resultado-excretas').innerText = data.excretasTotales + ' Kg';
+                    document.getElementById('resultado-mezcla').innerText = data.volumenMezcla + ' m³';
+                    document.getElementById('resultado-digestor').innerText = data.volumenCilindro + ' m³';
+                    document.getElementById('resultado-gas').innerText = data.volumenGas + ' m³';
+                    document.getElementById('resultado-cupula').innerText = data.volumenCupula + ' m³';
+                    document.getElementById('resultado-radio').innerText = data.radio + ' m';
+                    document.getElementById('resultado-diametro').innerText = data.diametro + ' m';
+                    document.getElementById('resultado-altura-cupula').innerText = data.alturaCupula + ' m';
+                    document.getElementById('resultado-volumen-final').innerText = data.volumenFinal + ' m³';
 
-                    // Actualizar contenido del acordeón de resultados
-                    const resultadosBody = document.getElementById("resultadosBody");
-                    resultadosBody.innerHTML = `
-                <div class="mb-3">
-                    <h5>Resultados de Excretas y Mezcla</h5>
-                    <ul>
-                        <li>Excretas Totales: ${data.excretasTotales} kg/día</li>
-                        <li>Volumen de la Mezcla: ${data.volumenMezcla} m³</li>
-                    </ul>
-                </div>
-                <div class="mb-3">
-                    <h5>Resultados del Digestor</h5>
-                    <ul>
-                        <li>Volumen del Digestor: ${data.volumenDigestor} m³</li>
-                        <li>Volumen de Gas: ${data.volumenGas} m³</li>
-                        <li>Volumen de la Cúpula: ${data.volumenCupula} m³</li>
-                    </ul>
-                </div>
-                <div class="mb-3">
-                    <h5>Dimensiones del Biodigestor</h5>
-                    <ul>
-                        <li>Radio del Digestor: ${data.radio} m</li>
-                        <li>Diámetro del Digestor: ${data.diametro} m</li>
-                        <li>Altura de la Cúpula: ${data.alturaCupula} m</li>
-                        <li>Volumen Final del Biodigestor: ${data.volumenFinal} m³</li>
-                    </ul>
-                </div>
-                <div class="mb-3">
-                    <h5>Dimensiones de la Bolsa</h5>
-                    <ul>
-                        <li>Altura de la Pared de la Bolsa: ${data.alturaParedBolsa} m</li>
-                        <li>Ancho de la Bolsa: ${data.anchoBolsa} m</li>
-                        <li>Largo de la Bolsa: ${data.largoBolsa} m</li>
-                    </ul>
-                </div>
-            `;
+                    // Mostrar la imagen correspondiente
+                    document.getElementById('imagen-biodigestor').src = data.imagen_url;
 
-                    // Cerrar el acordeón de entradas
-                    const collapseInputs = new bootstrap.Collapse(document.getElementById('collapseInputs'), {
+                    // Mostrar el acordeón de resultados y ocultar el de datos
+                    let collapseOne = new bootstrap.Collapse(document.getElementById('collapseOne'), {
                         toggle: false
                     });
-                    collapseInputs.hide();
-
-                    // Mostrar el acordeón de resultados
-                    const collapseResults = new bootstrap.Collapse(document.getElementById('collapseResults'), {
-                        toggle: false
+                    let collapseTwo = new bootstrap.Collapse(document.getElementById('collapseTwo'), {
+                        toggle: true
                     });
-                    collapseResults.show();
+                    collapseOne.hide();
+                    collapseTwo.show();
                 })
-                .catch(error => console.error("Error:", error));
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
