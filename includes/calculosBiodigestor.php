@@ -7,7 +7,6 @@ $cantidadExcreta = $_POST['excretaDiaria'];
 $tiempoResidencia = $_POST['tiempoResidencia'];
 $relacionEstiercolAgua = $_POST['relacionEstiercolAgua'];
 $alturaCilindro = $_POST['alturaCilindro'];
-$alturaPared = $_POST['alturaPared'];
 
 // Realizar cálculos
 $excretasTotales = $numeroAnimales * $cantidadExcreta;
@@ -20,13 +19,7 @@ $diametro = $radio * 2;
 $alturaCupula = $radio / 3;
 $volumenFinal = $volumenCilindro + $volumenCupula;
 
-// Dimensiones de la pared
-$alturaParedFinal = 1.5 * $alturaPared;
-$anchoPared = 6.4 * $alturaPared;
-$largoPared = 10 * $alturaPared;
-
-// Devolver resultados en formato JSON
-//$imagen_url = "../includes/generarImagenDimensiones.php?radio=$radio&diametro=$diametro&alturaCupula=$alturaCupula";
+// Generar imagen de las dimensiones del biodigestor
 $rutaImagen = generarImagenDimensiones($radio, $diametro, $alturaCupula, $alturaCilindro);
 
 function generarImagenDimensiones($radio, $diametro, $alturaCupula, $alturaCilindro) {
@@ -64,20 +57,13 @@ function generarImagenDimensiones($radio, $diametro, $alturaCupula, $alturaCilin
     imagettftext($imagen, 16, 0, 50, 50, $colorTexto, $fuente, "Radio: $radio m");
     imagettftext($imagen, 16, 0, 50, 100, $colorTexto, $fuente, "Diámetro: $diametro m");
     imagettftext($imagen, 16, 0, 50, 150, $colorTexto, $fuente, "Altura Cúpula: $alturaCupula m");
-
     imagettftext($imagen, 16, 0, 50, 200, $colorTexto, $fuente, "Altura del Cilindro: $alturaCilindro m");
 
-    //Colocar supuerpuesto al esquema
-    // - - Horizontal Vertical
-    imagettftext($imagen, 30, 0, 650, 500, $colorTexto, $fuente, "$radio m"); //YA está en medio
-    imagettftext($imagen, 30, 0, 580, 990, $colorTexto, $fuente, "$diametro m"); //YA está abajo
-    imagettftext($imagen, 30, 0, 940, 270, $colorTexto, $fuente, "$alturaCupula m"); //YA está arriba
-
-    imagettftext($imagen, 30, 0, 180, 600, $colorTexto, $fuente, "$alturaCilindro m"); //YA está en medio
-
-
-    
-    //Acá falta otro valor para la medida de la izquierda
+    // Posicionar los valores sobre el esquema del biodigestor
+    imagettftext($imagen, 30, 0, 650, 500, $colorTexto, $fuente, "$radio m");
+    imagettftext($imagen, 30, 0, 580, 990, $colorTexto, $fuente, "$diametro m");
+    imagettftext($imagen, 30, 0, 940, 270, $colorTexto, $fuente, "$alturaCupula m");
+    imagettftext($imagen, 30, 0, 180, 600, $colorTexto, $fuente, "$alturaCilindro m");
 
     // Guardar la imagen generada
     $rutaImagenGenerada = '../tmp/temporalDimensionesBiodigestorGeneradasPlano.png';
@@ -89,10 +75,7 @@ function generarImagenDimensiones($radio, $diametro, $alturaCupula, $alturaCilin
     return $rutaImagenGenerada;
 }
 
-
-
-
-
+// Devolver resultados en formato JSON
 echo json_encode(array(
     "excretasTotales" => number_format($excretasTotales, 2),
     "volumenMezcla" => number_format($volumenMezcla, 2),
@@ -103,9 +86,6 @@ echo json_encode(array(
     "diametro" => number_format($diametro, 2),
     "alturaCupula" => number_format($alturaCupula, 2),
     "volumenFinal" => number_format($volumenFinal, 2),
-    "alturaPared" => number_format($alturaParedFinal, 2),
-    "anchoPared" => number_format($anchoPared, 2),
-    "largoPared" => number_format($largoPared, 2),
     "imagen_url" => $rutaImagen
 ));
 
