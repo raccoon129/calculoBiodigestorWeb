@@ -27,9 +27,9 @@ $largoPared = 10 * $alturaPared;
 
 // Devolver resultados en formato JSON
 //$imagen_url = "../includes/generarImagenDimensiones.php?radio=$radio&diametro=$diametro&alturaCupula=$alturaCupula";
-$rutaImagen = generarImagenDimensiones($radio, $diametro, $alturaCupula);
+$rutaImagen = generarImagenDimensiones($radio, $diametro, $alturaCupula, $alturaCilindro);
 
-function generarImagenDimensiones($radio, $diametro, $alturaCupula) {
+function generarImagenDimensiones($radio, $diametro, $alturaCupula, $alturaCilindro) {
     // Ruta de la imagen base
     $imagenBase = '../img/biodigestorLateralGenerar.jpg';
 
@@ -65,11 +65,18 @@ function generarImagenDimensiones($radio, $diametro, $alturaCupula) {
     imagettftext($imagen, 16, 0, 50, 100, $colorTexto, $fuente, "Diámetro: $diametro m");
     imagettftext($imagen, 16, 0, 50, 150, $colorTexto, $fuente, "Altura Cúpula: $alturaCupula m");
 
+    imagettftext($imagen, 16, 0, 50, 200, $colorTexto, $fuente, "Altura del Cilindro: $alturaCilindro m");
+
     //Colocar supuerpuesto al esquema
     // - - Horizontal Vertical
     imagettftext($imagen, 30, 0, 650, 500, $colorTexto, $fuente, "$radio m"); //YA está en medio
     imagettftext($imagen, 30, 0, 580, 990, $colorTexto, $fuente, "$diametro m"); //YA está abajo
     imagettftext($imagen, 30, 0, 940, 270, $colorTexto, $fuente, "$alturaCupula m"); //YA está arriba
+
+    imagettftext($imagen, 30, 0, 180, 600, $colorTexto, $fuente, "$alturaCilindro m"); //YA está en medio
+
+
+    
     //Acá falta otro valor para la medida de la izquierda
 
     // Guardar la imagen generada

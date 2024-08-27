@@ -46,7 +46,7 @@
                                 <div class="col-md-6">
                                     <h5>Cantidad de animales</h5>
                                     <div class="mb-3">
-                                        <label for="numAnimales" class="form-label">Número de Cerdos o Vacas (Q):</label>
+                                        <label for="numAnimales" class="form-label">Número Vacas (Q):</label>
                                         <input type="number" class="form-control" id="numAnimales" name="numAnimales" required>
                                     </div>
                                     <div class="mb-3">
@@ -69,6 +69,7 @@
                                         <input type="number" class="form-control" id="alturaCilindro" name="alturaCilindro" required>
                                     </div>
                                     <div class="mb-3">
+                                        <!-- Ya no se usará este, cambiar los cálculos -->
                                         <label for="alturaPared" class="form-label">Altura pared/Bolsa (HP) m:</label>
                                         <input type="number" class="form-control" id="alturaPared" name="alturaPared" required>
                                     </div>
