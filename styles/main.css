@@ -23,8 +23,8 @@ body, html {
 }
 
 iframe {
-    width: 100%;
-    height: 600px;
+    min-height: 900px; /* Altura mínima*/
+    width: 100%; /* Se ajusta al 100% del ancho */
     border: none;
 }
 

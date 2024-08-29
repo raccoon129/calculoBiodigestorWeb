@@ -105,7 +105,7 @@
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div id="defaultMessage" class="alert alert-info" role="alert">
-                            Da clic antes en Calcular para ver los resultados
+                            Rellena todos los campos anteriores y da clic en <strong>Calcular</strong> para ver los resultados.
                         </div>
                         <div id="resultsContent" style="display: none;">
                             <div class="two-columns">
