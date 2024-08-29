@@ -33,7 +33,7 @@ function ajustarAlturaIframe() {
     iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
 }
 
-// Asegúrate de que el iframe se ajusta después de cargar
+// el iframe se ajusta después de cargar
 document.getElementById('calculadoraIframe').onload = function() {
     ajustarAlturaIframe();
 };
