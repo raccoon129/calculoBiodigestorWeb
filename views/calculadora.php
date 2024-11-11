@@ -63,7 +63,9 @@
                                         <label for="tiempoResidencia" class="form-label">Tiempo de residencia (días):</label>
                                         <select class="form-control" id="tiempoResidencia" name="tiempoResidencia" required>
                                             <option value="20">20 días</option>
+                                            <option value="25">25 días</option>
                                             <option value="30">30 días</option>
+                                            <option value="35">35 días</option>
                                             <option value="40">40 días</option>
                                         </select>
                                     </div>
